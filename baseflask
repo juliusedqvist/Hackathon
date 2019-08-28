@@ -1,0 +1,40 @@
+from flask import Flask, request
+
+app = Flask(__name__, static_url_path='')
+
+# http://localhost:5000/website?walk=10&startplats=Vallentuna_station&slutdest=Kemistv%C3%A4gen_1A
+
+@app.route("/website", methods=['POST', 'GET'])
+def hello_world():
+
+    if request.method == 'GET':
+
+        print(request.args)
+
+        walk = request.args['walk']
+        startplats = request.args['startplats']
+        slutdest = request.args['slutdest']
+
+        print(walk, startplats, slutdest)
+
+        vallentuna_teg1 = {'walk': '5', 'starttid': 751, 'sluttid': 823, 'startplats': 'Vallentuna_station',
+                           'avdest': 'Galoppfältet', 'slutdest': 'Kemistvägen_1A'}
+        vallentuna_teg2 = {'walk': '10', 'starttid': 751, 'sluttid': 825, 'startplats': 'Vallentuna_station',
+                           'avdest': 'Stockholmsvägen', 'slutdest': 'Kemistvägen_1A'}
+        vallentuna_teg3 = {'walk': '20', 'starttid': 751, 'sluttid': 825, 'startplats': 'Vallentuna_station',
+                           'avdest': 'Tibble', 'slutdest': 'Kemistvägen_1A'}
+
+        routes = [vallentuna_teg1, vallentuna_teg2, vallentuna_teg3]
+
+        for items in range(len(routes)):
+            if routes[items]['walk'] == walk and routes[items]['startplats'] == startplats and routes[items][
+                    'slutdest'] == slutdest:
+                returnval = str(routes[items])
+                print(returnval)
+
+                return returnval
+
+
+if __name__ == '__main__':
+
+    app.run(host='0.0.0.0', port=57631, debug=True)
